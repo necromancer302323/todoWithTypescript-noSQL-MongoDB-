@@ -6,6 +6,8 @@ import { atom } from "recoil";
       name:"",
       description:"",
       _id:"",
-    }], // default value (aka initial value)
+    }],
+     
   });
+  
   export default todoState
