@@ -1,13 +1,12 @@
 import { atom } from "recoil";
 
  const todoState = atom({
-    key: 'todoState', // unique ID (with respect to other atoms/selectors)
+    key: 'todoState',
     default: [{
       name:"",
       description:"",
       _id:"",
     }],
-     
   });
   
   export default todoState
