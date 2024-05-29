@@ -6,9 +6,9 @@ import axios from "axios";
 export default function TodoFormat(props:any){
 
     const [todos, settodos] = useRecoilState(todoState)
-    const[_inputBoxDisable,setInputBoxDisable]=useState(true)
-    const nameInput=useRef("")
-    const descriptionInput=useRef("")
+    const[inputBoxDisable,setInputBoxDisable]=useState(true)
+    const nameInput=useRef(todos[todos.findIndex((e)=>{return e==props.todo})].name)
+    const descriptionInput=useRef(todos[todos.findIndex((e)=>{return e==props.todo})].description)
     
 
     function handleNameInput(input:any){
@@ -27,11 +27,11 @@ export default function TodoFormat(props:any){
     return <div key={Math.random()} className='flex gap-2 '>
 <div className="flex flex-col">
   <div>name:</div>
-  <input defaultValue={todos[todos.findIndex((e)=>{return e==props.todo})].name} className='bg-slate-200 rounded-xl p-1' disabled={false} 
+  <input defaultValue={todos[todos.findIndex((e)=>{return e==props.todo})].name} className='bg-slate-200 rounded-xl p-1' disabled={inputBoxDisable} 
   onChange={handleNameInput}
   ></input>
   <div>description:</div>
-  <input defaultValue={todos[todos.findIndex((e)=>{return e==props.todo})].description} className='bg-slate-200 rounded-xl p-1' disabled={false}
+  <input defaultValue={todos[todos.findIndex((e)=>{return e==props.todo})].description} className='bg-slate-200 rounded-xl p-1' disabled={inputBoxDisable}
   onChange={handledescriptionInput}
   ></input>
    
