@@ -6,7 +6,7 @@ import { atom } from "recoil";
       name:"",
       description:"",
       _id:"",
-    }],
+    }]
   });
   
   export default todoState
