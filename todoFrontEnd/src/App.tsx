@@ -12,43 +12,30 @@ function App() {
   const [todos, settodos] = useRecoilState<any>(todoState)
   const [signUpPageVisiblity, setsignUpPageVisiblity] = useState(false)
   const [homepageVisiblity, sethomepageVisiblity] = useState(true)
+
+  
+  
   async function AllTodos() {
     let res = await axios.get("http://localhost:4000/allTodos", { headers: { authorization: localStorage.getItem('token') } })
-    settodos(res.data)
-  }
+    settodos((prev:any)=>{prev=res.data;return prev})
+    console.log(todos)
+  } 
 
-  async function addTodos() {
-    let res = await axios.post("http://localhost:4000/addTodos", {
-      newTodo: todos
-    }, { headers: { authorization: localStorage.getItem('token') } })
-    console.log(res.data)
-    settodos(res.data)
-  }
+  
+  useEffect(()=>{
+    AllTodos();
+  },[])
 
-  async function deleteTodo(newTodos:any) {
-    let res = await axios.post("http://localhost:4000/deleteTodo", {
-      newTodo: newTodos
-    }, { headers: { authorization: localStorage.getItem('token') } })
-    console.log(res.data)
-    settodos(res.data)
-  }
-  async function updateTodos() {
-    let res = await axios.post("http://localhost:4000/updateTodo", {
-      newTodo: todos
-    }, { headers: { authorization: localStorage.getItem('token') } })
-    settodos(res.data)
-    alert("succesfully updated the todos")
-  }
+
+
+
+  
+
   const pagesVisblity = () => {
     sethomepageVisiblity((prev) => { return !prev });
     setsignUpPageVisiblity((prev) => { return !prev })
   }
 
-
-
-  useEffect(() => {
-    AllTodos()
-  }, [])
 
   return (
     <div>
@@ -63,20 +50,9 @@ function App() {
           {todos.map((t: any, index: number) => {
             return <div key={index} >
               <TodoFormat todo={t} index={index}></TodoFormat>
-              <div className='flex gap-10'>
-                <button onClick={()=>{
-                  settodos((prev:any)=>{
-                    const x=[...prev];
-                    x.splice(index,1);
-                    deleteTodo(x)
-                    return x})}}>delete todo</button>
-               
-              </div>
             </div>
           })}
           <button onClick={()=>{settodos((prev:any)=>{const x=[...prev];x.push({name:"",description:""});return x})}}>+</button>
-          <button onClick={addTodos}>confirm</button>
-          <button onClick={() => { console.log(todos); updateTodos() }}>submit</button>
         </div>
         <div className='flex gap-2 flex-col'>
         </div>
